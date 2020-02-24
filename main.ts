@@ -138,8 +138,8 @@ function camera () {
 // if the sprite touchess the obstacles the game is
 // over in a loss
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Projectile, function (sprite, otherSprite) {
-    game.over(false)
     endgame_text()
+    game.over(false)
 })
 // when A is pressed the parrot goes up
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
@@ -546,7 +546,7 @@ game.onUpdateInterval(1500, function () {
 game.onUpdate(function () {
     // math
     if (parrot.bottom > 120 || parrot.top < 0) {
-        game.over(false)
         endgame_text()
+        game.over(false)
     }
 })
