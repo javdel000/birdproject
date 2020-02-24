@@ -1,8 +1,6 @@
-function text () {
-    asktext = game.askForString("r u ready")
-    if (true) {
-    	
-    }
+function endgame_text () {
+    endText = game.askForNumber("rate my game 1-10")
+    game.splash("YOU RATED IT A 10!! THANKS FOR PLAYING")
 }
 function background () {
     // gives a background image in the back
@@ -129,6 +127,10 @@ d d d d d d d d d d d d d d d d d d d d d d d d d d d d d d d d d d d d d d d d 
 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 
 `)
 }
+function text () {
+    asktext = game.askForString("r u ready")
+    game.splash("" + asktext + "? ok well ur playing ")
+}
 function camera () {
     // the camera follows the parrot at all times
     scene.cameraFollowSprite(parrot)
@@ -137,6 +139,7 @@ function camera () {
 // over in a loss
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Projectile, function (sprite, otherSprite) {
     game.over(false)
+    endgame_text()
 })
 // when A is pressed the parrot goes up
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
@@ -177,6 +180,8 @@ let topImage: Image = null
 let gap = 0
 let parrot: Sprite = null
 let asktext = ""
+let endText = 0
+text()
 player_sprite()
 camera()
 background()
@@ -542,5 +547,6 @@ game.onUpdate(function () {
     // math
     if (parrot.bottom > 120 || parrot.top < 0) {
         game.over(false)
+        endgame_text()
     }
 })
