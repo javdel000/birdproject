@@ -1,4 +1,11 @@
+function text () {
+    asktext = game.askForString("r u ready")
+    if (true) {
+    	
+    }
+}
 function background () {
+    // gives a background image in the back
     scene.setBackgroundImage(img`
 c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c 
 c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c 5 c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c c 
@@ -123,12 +130,20 @@ d d d d d d d d d d d d d d d d d d d d d d d d d d d d d d d d d d d d d d d d 
 `)
 }
 function camera () {
+    // the camera follows the parrot at all times
     scene.cameraFollowSprite(parrot)
 }
+// if the sprite touchess the obstacles the game is
+// over in a loss
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Projectile, function (sprite, otherSprite) {
+    game.over(false)
+})
+// when A is pressed the parrot goes up
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
-    parrot.setVelocity(0, -100)
+    parrot.vy = -100
 })
 function player_sprite () {
+    // creates sprite
     parrot = sprites.create(img`
 . . . . . . . . . . . . . . . . . . . . 
 . . . . . . . . . 2 2 2 . . . . . . . . 
@@ -151,24 +166,25 @@ function player_sprite () {
 . . . . . . . . . . . . . . . . . . . . 
 . . . . . . . . . . . . . . . . . . . . 
 `, SpriteKind.Player)
-    parrot.setVelocity(100, 0)
+    parrot.ay = 300
+    // makes sure sprite stays on screen
     parrot.setFlag(SpriteFlag.StayInScreen, true)
 }
-sprites.onOverlap(SpriteKind.Player, SpriteKind.Player, function (sprite, otherSprite) {
-    game.over(false)
-})
+let projectile2: Sprite = null
 let projectile: Sprite = null
 let bottomImage: Image = null
 let topImage: Image = null
 let gap = 0
 let parrot: Sprite = null
+let asktext = ""
 player_sprite()
 camera()
 background()
 game.onUpdateInterval(1500, function () {
     info.changeScoreBy(1)
-    gap = Math.randomRange(0, 3)
+    gap = Math.randomRange(1, 3)
     if (gap == 0) {
+        // creates the obstacles, top and bottom
         topImage = img`
 . . . . . . . . . . . . . . . . . . . . . . . . 
 . . . . . . . . . . b b b b . . . . . . . . . . 
@@ -519,13 +535,11 @@ game.onUpdateInterval(1500, function () {
     }
     projectile = sprites.createProjectileFromSide(topImage, -45, 0)
     projectile.top = 0
-    projectile = sprites.createProjectileFromSide(bottomImage, -45, 0)
+    projectile2 = sprites.createProjectileFromSide(bottomImage, -45, 0)
     projectile.bottom = scene.screenHeight()
 })
 game.onUpdate(function () {
-    parrot.setVelocity(0, 10)
-})
-game.onUpdate(function () {
+    // math
     if (parrot.bottom > 120 || parrot.top < 0) {
         game.over(false)
     }
