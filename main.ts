@@ -248,7 +248,7 @@ function endgame_text () {
 `)
 }
 controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
-    info.changeScoreBy(1357)
+    info.changeScoreBy(1)
 })
 function background () {
     // gives a background image in the back
